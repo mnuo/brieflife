@@ -39,12 +39,13 @@
         <project.tomcat.version>8.0.33</project.tomcat.version>   -->
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
+    <dependency>    
+       <groupId>junit</groupId>    
+       <artifactId>junit</artifactId>    
+       <version>4.11</version>    
+       <!-- 表示开发的时候引入，发布的时候不会加载此包 -->    
+       <scope>test</scope>    
+   </dependency> 
     <!-- Servlet+JSP+JSTL -->
 	<dependency>
 		<groupId>javax.servlet</groupId>
@@ -163,5 +164,48 @@
          <version>0.9.1.2</version>
      </dependency>
      
+     <!-- Mysql数据库链接jar包 -->    
+	<dependency>    
+	    <groupId>mysql</groupId>    
+	    <artifactId>mysql-connector-java</artifactId>    
+	    <version>5.1.30</version>    
+	</dependency> 
+	
+	<!-- 格式化对象，方便输出日志 -->    
+	<dependency>    
+	    <groupId>com.alibaba</groupId>    
+	    <artifactId>fastjson</artifactId>    
+	    <version>1.1.41</version>    
+	</dependency>    
+	
+	
+	<dependency>    
+	    <groupId>org.slf4j</groupId>    
+	    <artifactId>slf4j-api</artifactId>    
+	    <version>${slf4j.version}</version>    
+	</dependency>    
+	
+	<dependency>    
+	    <groupId>org.slf4j</groupId>    
+	    <artifactId>slf4j-log4j12</artifactId>    
+	    <version>${slf4j.version}</version>    
+	</dependency>    
+	<!-- Spring 升级4+ 依赖的JSON包 -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.7.4</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-core</artifactId>
+	    <version>2.7.4</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-annotations</artifactId>
+	    <version>2.7.4</version>
+	</dependency>
+	<!-- /Spring 升级4+ 依赖的JSON包 -->
   </dependencies>
 </project>
