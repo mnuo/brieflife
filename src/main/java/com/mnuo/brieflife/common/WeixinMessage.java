@@ -23,8 +23,8 @@ import com.mnuo.brieflife.common.utils.StringUtil;
  * @author saxon
  */
 public class WeixinMessage {
-	public static final String APP_ID = "wx2e8171fd09b38a2f";
-	public static final String APP_SECRET = "835e1804c7e0ebfd3412255f992528b5";
+	public static final String APP_ID = "";
+	public static final String APP_SECRET = "";
 	/**
      * text
      */
