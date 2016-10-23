@@ -6,23 +6,22 @@ package com.mnuo.brieflife.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mnuo.brieflife.common.Preconditions;
 
 /**
  * @author saxon
  */
-public abstract class AbstractHibernateDao<T extends Serializable> implements IHibernateDao<T> {
+public class AbstractHibernateDao<T extends Serializable> implements IHibernateDao<T> {
 	private Class<T> clazz;
     
-    @Resource(name="sessionFactory")
+    @Autowired
     private SessionFactory sessionFactory;
 
-    protected final void setClazz(final Class<T> clazzToSet) {
+	protected final void setClazz(final Class<T> clazzToSet) {
     	if(clazzToSet != null){
     		this.clazz = clazzToSet;
     	}

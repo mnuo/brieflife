@@ -8,8 +8,9 @@ package com.mnuo.brieflife.entity;
  */
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 @XmlRootElement(name = "coffee")
-public class Coffee {
+public class Coffee extends BaseMessage{
 	String name;
 	int quanlity;
 	public String getName() {

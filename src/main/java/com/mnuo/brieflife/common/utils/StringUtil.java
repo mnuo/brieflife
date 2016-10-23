@@ -13,4 +13,18 @@ public class StringUtil {
 		
 		return true;
 	}
+	
+	public static String toLowerCase(String in){
+		char[] arr = in.toCharArray();
+		StringBuffer sb = new StringBuffer();
+		for(char c : arr){
+			String str = c + "";
+			if(Character.isUpperCase(c)){
+				str = "_" + c;
+			}
+			sb.append(str);
+		}
+		return sb.toString().toLowerCase();
+	}
+	
 }

@@ -1,9 +1,11 @@
 package com.mnuo.brieflife.entity;
-// Generated 2016-10-22 18:09:31 by Hibernate Tools 5.2.0.Beta1
+// Generated 2016-10-23 14:18:12 by Hibernate Tools 5.2.0.Beta1
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -15,51 +17,182 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "bl_user", catalog = "brieflife")
 public class BlUser implements java.io.Serializable {
-	private static final long serialVersionUID = -6031604717119726916L;
-	private int id;
-	private String name;
-	private Date createdAt;
+	private static final long serialVersionUID = 4127641996190060154L;
+	private Integer id;
+	private String subscribe;
+	private String openid;
+	private String nickname;
+	private String sex;
+	private String city;
+	private String country;
+	private String province;
+	private String language;
+	private String headimgurl;
+	private Date subscribeTime;
+	private String unionid;
+	private String remark;
+	private String groupid;
+	private String tagidList;
 
 	public BlUser() {
 	}
 
-	public BlUser(int id) {
-		this.id = id;
-	}
-
-	public BlUser(int id, String name, Date createdAt) {
-		this.id = id;
-		this.name = name;
-		this.createdAt = createdAt;
+	public BlUser(String subscribe, String openid, String nickname, String sex, String city, String country,
+			String province, String language, String headimgurl, Date subscribeTime, String unionid, String remark,
+			String groupid, String tagidList) {
+		this.subscribe = subscribe;
+		this.openid = openid;
+		this.nickname = nickname;
+		this.sex = sex;
+		this.city = city;
+		this.country = country;
+		this.province = province;
+		this.language = language;
+		this.headimgurl = headimgurl;
+		this.subscribeTime = subscribeTime;
+		this.unionid = unionid;
+		this.remark = remark;
+		this.groupid = groupid;
+		this.tagidList = tagidList;
 	}
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
+
 	@Column(name = "id", unique = true, nullable = false)
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	@Column(name = "name")
-	public String getName() {
-		return this.name;
+	@Column(name = "subscribe", length = 2)
+	public String getSubscribe() {
+		return this.subscribe;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSubscribe(String subscribe) {
+		this.subscribe = subscribe;
+	}
+
+	@Column(name = "openid")
+	public String getOpenid() {
+		return this.openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+
+	@Column(name = "nickname")
+	public String getNickname() {
+		return this.nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	@Column(name = "sex", length = 2)
+	public String getSex() {
+		return this.sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	@Column(name = "city", length = 50)
+	public String getCity() {
+		return this.city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	@Column(name = "country", length = 50)
+	public String getCountry() {
+		return this.country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	@Column(name = "province", length = 50)
+	public String getProvince() {
+		return this.province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	@Column(name = "language", length = 20)
+	public String getLanguage() {
+		return this.language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	@Column(name = "headimgurl", length = 500)
+	public String getHeadimgurl() {
+		return this.headimgurl;
+	}
+
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at", length = 19)
-	public Date getCreatedAt() {
-		return this.createdAt;
+	@Column(name = "subscribe_time", length = 19)
+	public Date getSubscribeTime() {
+		return this.subscribeTime;
 	}
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public void setSubscribeTime(Date subscribeTime) {
+		this.subscribeTime = subscribeTime;
+	}
+
+	@Column(name = "unionid", length = 50)
+	public String getUnionid() {
+		return this.unionid;
+	}
+
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
+
+	@Column(name = "remark")
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	@Column(name = "groupid")
+	public String getGroupid() {
+		return this.groupid;
+	}
+
+	public void setGroupid(String groupid) {
+		this.groupid = groupid;
+	}
+
+	@Column(name = "tagid_list")
+	public String getTagidList() {
+		return this.tagidList;
+	}
+
+	public void setTagidList(String tagidList) {
+		this.tagidList = tagidList;
 	}
 
 }

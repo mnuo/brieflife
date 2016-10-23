@@ -3,14 +3,15 @@
  */
 package brieflife;
 
-import java.sql.SQLException;
+import java.util.Date;
 
-import javax.sql.DataSource;
-
-import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.mnuo.brieflife.entity.BlPosition;
+import com.mnuo.brieflife.entity.BlTextMessage;
+import com.mnuo.brieflife.service.BaseMessageService;
 
 /**
  * @author saxon
@@ -20,12 +21,17 @@ public class SSHTest {
 	@Test
 	public void testDataSource() throws Exception{
 		acx = new ClassPathXmlApplicationContext("config/spring.xml");
-		System.out.println("数据源:"+acx);
-		
-		DataSource datasource = acx.getBean(DataSource.class);
-		System.out.println("打开数据连接: " + datasource.getConnection().toString());
-		
-		SessionFactory sessionFactory = acx.getBean(SessionFactory.class);
-		System.out.println("SessionFactory: " + sessionFactory);
+		BaseMessageService baseMessageService = acx.getBean(BaseMessageService.class);
+		BlTextMessage textMessage = new BlTextMessage();
+    	textMessage.setFromUserName("fff");
+    	textMessage.setMsgId("fff");
+    	textMessage.setMsgType("fff");
+    	textMessage.setContent("fff");
+    	textMessage.setCreateTime(new Date());
+    	BlPosition position = new BlPosition();
+    	position.setId(1);
+    	textMessage.setBlPosition(position);
+    	baseMessageService.save(textMessage);
+
 	}
 }
