@@ -3,11 +3,13 @@
  */
 package com.mnuo.brieflife.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mnuo.brieflife.common.WeixinCheck;
 import com.mnuo.brieflife.common.WeixinMessage;
 import com.mnuo.brieflife.common.utils.StringUtil;
-import com.mnuo.brieflife.dto.BaseMessageXML;
 import com.mnuo.brieflife.entity.BlImageMessage;
 import com.mnuo.brieflife.entity.BlPosition;
 import com.mnuo.brieflife.entity.BlTextMessage;
@@ -57,8 +58,7 @@ public class WeixinController {
 	}
 	
 	@RequestMapping(value="/weixin", method={RequestMethod.POST})
-	@ResponseBody
-	public Object weixin(HttpServletRequest request){
+	public void weixin(HttpServletRequest request, HttpServletResponse response){
 		try {
 			request.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -87,24 +87,24 @@ public class WeixinController {
 	    	
 	    	baseMessageService.save(textMessage);
 	    	
-	    	return getBaseMessageXml(message);
+	    	getBaseMessageXml(message, response);
 	    	
 	    }else if(WeixinMessage.MESSAGE_TYPE_IMAGE.equals(messageType)){
 	    	BlImageMessage imageMessage = new BlImageMessage();
 	    	imageMessage.setFromUserName(message.get("FromUserName"));
 	    	imageMessage.setMsgId(message.get("MsgId"));
 	    	imageMessage.setMsgType(message.get("MsgType"));
-	    	imageMessage.setPicUrl(message.get("picUrl"));
+	    	imageMessage.setPicUrl(message.get("PicUrl"));
 	    	imageMessage.setMediaId(message.get("MediaId"));
 	    	imageMessage.setCreateTime(new Date(Long.valueOf(message.get("CreateTime"))*1000L));
 	    	
 	    	BlPosition position = positionService.getPosition(message.get("FromUserName"));
 	    	imageMessage.setBlPosition(position);
 	    	baseMessageService.save(imageMessage);
-	    	return getBaseMessageXml(message);
+	    	getBaseMessageXml(message, response);
 	    }else if(WeixinMessage.MESSAGE_TYPE_EVENT.equals(messageType)){
 	    	event(message);
-	    	return getBaseMessageXml(message);
+	    	getBaseMessageXml(message, response);
 	    }else if(WeixinMessage.MESSAGE_TYPE_LOCATION.equals(messageType)){
 	    	BlPosition position = positionService.getPosition(message.get("FromUserName"));
 	    	position.setCreatedTime(new Date(Long.valueOf(message.get("CreateTime"))*1000L));
@@ -113,9 +113,9 @@ public class WeixinController {
 	    	position.setAddress(message.get("Label"));
 	    	position.setStatus(0);
 	    	positionService.saveOrUpdate(position);
-	    	return getBaseMessageXml(message);
+	    	getBaseMessageXml(message, response);
 	    }
-	    return "";
+//	    return "";
 	}
 	public void event(Map<String, String> map){
 		if(WeixinMessage.EVENT_TYPE_SUBSCRIBE.equals(map.get("Event"))){
@@ -127,14 +127,29 @@ public class WeixinController {
 		}
 	}
 	
-	private BaseMessageXML getBaseMessageXml(Map<String, String> map){
-		BaseMessageXML xml = new BaseMessageXML();
+	private void getBaseMessageXml(Map<String, String> map, HttpServletResponse response){
+/*		BaseMessageXML xml = new BaseMessageXML();
 		xml.setToUserName(map.get("ToUserName"));
 		xml.setCreateTime(map.get("CreateTime"));
 		xml.setFromUserName(map.get("FromUserName"));
 		xml.setMsgType(map.get("MsgType"));
 		xml.setContent("感谢您关注【SaxonWade】"+"\n"+"微信号：SaxonWade"+"\n"+"随便你怎么输入。"+"\n"+"但是记住："+"\n"+"【输入1进行保存下一步】 "+"\n"+"更多内容，敬请期待...");
-		return xml;
+		return xml;*/
+		 StringBuffer str = new StringBuffer();  
+         str.append("<xml>");  
+         str.append("<ToUserName><![CDATA[" + map.get("ToUserName") + "]]></ToUserName>");  
+         str.append("<FromUserName><![CDATA[" + map.get("ToUserName") + "]]></FromUserName>");  
+         str.append("<CreateTime>" + new Date().getTime()/1000 + "</CreateTime>");  
+         str.append("<MsgType><![CDATA[" + map.get("MsgType") + "]]></MsgType>");  
+         str.append("<Content><![CDATA[你好]]></Content>");  
+         str.append("</xml>");  
+         System.out.println(str.toString());  
+         try {
+        	// response.setCharacterEncoding("utf-8");
+			response.getWriter().write(str.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 	}
 
 	public BaseMessageService getBaseMessageService() {

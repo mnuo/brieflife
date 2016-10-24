@@ -22,14 +22,14 @@ public class BaseMessageXML {
 	}
 	@XmlElement(name="ToUserName")
 	public void setToUserName(String toUserName) {
-		this.toUserName = "<![CDATA["+toUserName+"]]>";
+		this.toUserName = "&lt;![CDATA["+toUserName+"]]&gt;";
 	}
 	public String getFromUserName() {
 		return fromUserName;
 	}
 	@XmlElement(name="FromUserName")
 	public void setFromUserName(String fromUserName) {
-		this.fromUserName = "<![CDATA["+fromUserName+"]]>";
+		this.fromUserName = "&lt;![CDATA["+fromUserName+"]]&gt;";
 	}
 	public String getCreateTime() {
 		return createTime;
@@ -43,7 +43,7 @@ public class BaseMessageXML {
 	}
 	@XmlElement(name="MsgType")
 	public void setMsgType(String msgType) {
-		this.msgType = "<![CDATA["+msgType+"]]>";
+		this.msgType = "&lt;![CDATA["+msgType+"]]&gt;";
 	}
 	public String getContent() {
 		return content;
@@ -51,6 +51,6 @@ public class BaseMessageXML {
 	
 	@XmlElement(name="Content")
 	public void setContent(String content) {
-		this.content = "<![CDATA["+content+"]]>";
+		this.content = "&lt;![CDATA["+content+"]]&gt;";
 	}
 }

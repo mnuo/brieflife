@@ -6,6 +6,7 @@ package com.mnuo.brieflife.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,8 @@ public class PositionDaoImpl extends AbstractHibernateDao<BlPosition> implements
 	public BlPosition queryByUserId(String userId) {
 		Criteria c= getCurrentSession().createCriteria(BlPosition.class);
 		c.add(Restrictions.eq("userId",userId));//eq是等于，gt是大于，lt是小于,or是或
+		c.add(Restrictions.eq("status", 0));
+		c.addOrder(Order.desc("createdTime"));
 		List<BlPosition> list = c.list();
 		return (list!= null && list.size()>1) ? list.get(0):null;
 	}
