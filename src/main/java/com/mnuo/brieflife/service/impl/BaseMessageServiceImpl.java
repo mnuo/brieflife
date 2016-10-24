@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mnuo.brieflife.dao.BaseMessageDao;
-import com.mnuo.brieflife.entity.BlTextMessage;
+import com.mnuo.brieflife.entity.BaseMessage;
 import com.mnuo.brieflife.service.BaseMessageService;
 
 /**
@@ -21,8 +21,8 @@ public class BaseMessageServiceImpl implements BaseMessageService {
 	public BaseMessageDao baseMessageDao;
 	
 	@Override
-	public void save(BlTextMessage baseMessage) {
-		baseMessageDao.create((BlTextMessage) baseMessage);
+	public void save(BaseMessage baseMessage) {
+		baseMessageDao.create(baseMessage);
 	}
 
 	public BaseMessageDao getBaseMessageDao() {

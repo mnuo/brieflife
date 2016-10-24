@@ -23,11 +23,14 @@ import javax.persistence.TemporalType;
 public class BlPosition implements java.io.Serializable {
 	private static final long serialVersionUID = -1017270927773980169L;
 	private Integer id;
+	private String userId;
 	private Date createdTime;
 	private String address;
 	private String longitude;
 	private String latitude;
 	private String altitude;
+	private int status;
+	private String descript;
 	private Set<BlImageMessage> blImageMessages = new HashSet<BlImageMessage>(0);
 	private Set<BlTextMessage> blTextMessages = new HashSet<BlTextMessage>(0);
 
@@ -119,6 +122,30 @@ public class BlPosition implements java.io.Serializable {
 
 	public void setBlTextMessages(Set<BlTextMessage> blTextMessages) {
 		this.blTextMessages = blTextMessages;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+	@Column(name = "user_id", length = 64)
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+	@Column(name = "status")
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getDescript() {
+		return descript;
+	}
+	@Column(name = "status", length = 500)
+	public void setDescript(String descript) {
+		this.descript = descript;
 	}
 
 }
