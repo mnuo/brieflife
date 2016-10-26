@@ -4,53 +4,46 @@
 package com.mnuo.brieflife.dto;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author saxon
  */
-@XmlRootElement(name="xml")
 public class BaseMessageXML {
-	private String toUserName;
-	private String fromUserName;
-	private String createTime;
-	private String msgType;
-	private String content;
+	// 接收方帐号（收到的OpenID）
+	private String ToUserName;
+	// 开发者微信号
+	private String FromUserName;
+	// 消息创建时间 （整型）
+	private long CreateTime;
+	// 消息类型（text/music/news）
+	private String MsgType;
 	
 	public String getToUserName() {
-		return toUserName;
+		return ToUserName;
 	}
 	@XmlElement(name="ToUserName")
 	public void setToUserName(String toUserName) {
-		this.toUserName = "&lt;![CDATA["+toUserName+"]]&gt;";
+		ToUserName = toUserName;
 	}
 	public String getFromUserName() {
-		return fromUserName;
+		return FromUserName;
 	}
 	@XmlElement(name="FromUserName")
 	public void setFromUserName(String fromUserName) {
-		this.fromUserName = "&lt;![CDATA["+fromUserName+"]]&gt;";
+		FromUserName = fromUserName;
 	}
-	public String getCreateTime() {
-		return createTime;
+	public long getCreateTime() {
+		return CreateTime;
 	}
 	@XmlElement(name="CreateTime")
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
+	public void setCreateTime(long createTime) {
+		CreateTime = createTime;
 	}
 	public String getMsgType() {
-		return msgType;
+		return MsgType;
 	}
 	@XmlElement(name="MsgType")
 	public void setMsgType(String msgType) {
-		this.msgType = "&lt;![CDATA["+msgType+"]]&gt;";
-	}
-	public String getContent() {
-		return content;
-	}
-	
-	@XmlElement(name="Content")
-	public void setContent(String content) {
-		this.content = "&lt;![CDATA["+content+"]]&gt;";
+		MsgType = msgType;
 	}
 }

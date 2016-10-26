@@ -23,7 +23,7 @@
   </build>
   <properties>  
       <!-- spring版本号 -->  
-      <spring.version>4.2.2.RELEASE</spring.version>  
+      <spring.version>4.3.3.RELEASE</spring.version>  
       <!-- mybatis版本号 -->  
       <hibernate.version>4.3.1.Final</hibernate.version>  
       <!-- log4j日志文件管理包版本 -->  
@@ -214,6 +214,17 @@
 	    <version>3.1</version>
 	</dependency>
 	
-	
+	<dependency>
+	    <groupId>com.thoughtworks.xstream</groupId>
+	    <artifactId>xstream</artifactId>
+	    <version>1.4.9</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
+	<dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-mapper-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+		
   </dependencies>
 </project>

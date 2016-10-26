@@ -25,6 +25,7 @@ import com.mnuo.brieflife.common.utils.StringUtil;
 public class WeixinMessage {
 	public static final String APP_ID = "";
 	public static final String APP_SECRET = "";
+	public static String TOKEN = "blwx20161022mnuo";
 	/**
      * text
      */

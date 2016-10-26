@@ -3,9 +3,7 @@
  */
 package com.mnuo.brieflife.controller;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,26 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mnuo.brieflife.common.WeixinCheck;
 import com.mnuo.brieflife.common.WeixinMessage;
 import com.mnuo.brieflife.common.utils.StringUtil;
-import com.mnuo.brieflife.entity.BlImageMessage;
-import com.mnuo.brieflife.entity.BlPosition;
-import com.mnuo.brieflife.entity.BlTextMessage;
-import com.mnuo.brieflife.entity.BlUser;
-import com.mnuo.brieflife.service.BaseMessageService;
-import com.mnuo.brieflife.service.PositionService;
-import com.mnuo.brieflife.service.WeixinUserService;
+import com.mnuo.brieflife.service.WeixinService;
 /**
  * @author saxon
  */
 @Controller
 public class WeixinController {
-	public static String TOKEN = "blwx20161022mnuo";
 	
 	@Autowired
-	private BaseMessageService baseMessageService;
-	@Autowired
-	private WeixinUserService weixinUserService;
-	@Autowired
-	private PositionService positionService;
+	private WeixinService weixinService;
 	/**
 	 * 微信验证
 	 * @param signature 微信加密签名
@@ -51,14 +38,15 @@ public class WeixinController {
 	@RequestMapping(value="/weixin", method={RequestMethod.GET})
 	@ResponseBody
 	public String weixin(String signature, String echostr, String timestamp, String nonce){
-        if(StringUtil.isNotEmpty(echostr) && WeixinCheck.checkFromWeixinOne(new String[]{TOKEN, timestamp, nonce}, signature)){
+        if(StringUtil.isNotEmpty(echostr) && WeixinCheck.checkFromWeixinOne(new String[]{WeixinMessage.TOKEN, timestamp, nonce}, signature)){
         	return echostr;
         }
         return "";
 	}
 	
 	@RequestMapping(value="/weixin", method={RequestMethod.POST})
-	public void weixin(HttpServletRequest request, HttpServletResponse response){
+	@ResponseBody
+	public Object weixin(HttpServletRequest request, HttpServletResponse response){
 		try {
 			request.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -66,113 +54,15 @@ public class WeixinController {
 		}
          
         Map<String,String> message=WeixinMessage.parseXml(request);
-         
-        String messageType=message.get("MsgType");
-	    if(WeixinMessage.MESSAGE_TYPE_TEXT.equals(messageType)){
-	    	
-	    	BlTextMessage textMessage = new BlTextMessage();
-	    	textMessage.setFromUserName(message.get("FromUserName"));
-	    	textMessage.setMsgId(message.get("MsgId"));
-	    	textMessage.setMsgType(message.get("MsgType"));
-	    	textMessage.setContent(message.get("Content"));
-	    	textMessage.setCreateTime(new Date(Long.valueOf(message.get("CreateTime"))*1000L));
-	    	
-	    	BlPosition position = positionService.getPosition(message.get("FromUserName"));
-	    	position.setStatus(0);
-	    	position.setCreatedTime(new Date(Long.valueOf(message.get("CreateTime"))*1000L));
-	    	position.setUserId(message.get("FromUserName"));
-	    	positionService.saveOrUpdate(position);
-	    	
-	    	textMessage.setBlPosition(position);
-	    	
-	    	baseMessageService.save(textMessage);
-	    	
-	    	getBaseMessageXml(message, response);
-	    	
-	    }else if(WeixinMessage.MESSAGE_TYPE_IMAGE.equals(messageType)){
-	    	BlImageMessage imageMessage = new BlImageMessage();
-	    	imageMessage.setFromUserName(message.get("FromUserName"));
-	    	imageMessage.setMsgId(message.get("MsgId"));
-	    	imageMessage.setMsgType(message.get("MsgType"));
-	    	imageMessage.setPicUrl(message.get("PicUrl"));
-	    	imageMessage.setMediaId(message.get("MediaId"));
-	    	imageMessage.setCreateTime(new Date(Long.valueOf(message.get("CreateTime"))*1000L));
-	    	
-	    	BlPosition position = positionService.getPosition(message.get("FromUserName"));
-	    	imageMessage.setBlPosition(position);
-	    	baseMessageService.save(imageMessage);
-	    	getBaseMessageXml(message, response);
-	    }else if(WeixinMessage.MESSAGE_TYPE_EVENT.equals(messageType)){
-	    	event(message);
-	    	getBaseMessageXml(message, response);
-	    }else if(WeixinMessage.MESSAGE_TYPE_LOCATION.equals(messageType)){
-	    	BlPosition position = positionService.getPosition(message.get("FromUserName"));
-	    	position.setCreatedTime(new Date(Long.valueOf(message.get("CreateTime"))*1000L));
-	    	position.setLatitude(message.get("Location_X"));
-	    	position.setLongitude(message.get("Location_Y"));
-	    	position.setAddress(message.get("Label"));
-	    	position.setStatus(0);
-	    	positionService.saveOrUpdate(position);
-	    	getBaseMessageXml(message, response);
-	    }
-//	    return "";
-	}
-	public void event(Map<String, String> map){
-		if(WeixinMessage.EVENT_TYPE_SUBSCRIBE.equals(map.get("Event"))){
-//			BlUser user = (BlUser) WeixinHttpClient.getUserInfo(map.get("FromUserName"), BlUser.class);
-			BlUser user = new BlUser();
-			user.setOpenid(map.get("FromUserName"));
-			user.setSubscribeTime(new Date(Long.valueOf(map.get("CreateTime"))*1000L));
-			weixinUserService.save(user);
-		}
-	}
-	
-	private void getBaseMessageXml(Map<String, String> map, HttpServletResponse response){
-/*		BaseMessageXML xml = new BaseMessageXML();
-		xml.setToUserName(map.get("ToUserName"));
-		xml.setCreateTime(map.get("CreateTime"));
-		xml.setFromUserName(map.get("FromUserName"));
-		xml.setMsgType(map.get("MsgType"));
-		xml.setContent("感谢您关注【SaxonWade】"+"\n"+"微信号：SaxonWade"+"\n"+"随便你怎么输入。"+"\n"+"但是记住："+"\n"+"【输入1进行保存下一步】 "+"\n"+"更多内容，敬请期待...");
-		return xml;*/
-		 StringBuffer str = new StringBuffer();  
-         str.append("<xml>");  
-         str.append("<ToUserName><![CDATA[" + map.get("ToUserName") + "]]></ToUserName>");  
-         str.append("<FromUserName><![CDATA[" + map.get("ToUserName") + "]]></FromUserName>");  
-         str.append("<CreateTime>" + new Date().getTime()/1000 + "</CreateTime>");  
-         str.append("<MsgType><![CDATA[" + map.get("MsgType") + "]]></MsgType>");  
-         str.append("<Content><![CDATA[你好]]></Content>");  
-         str.append("</xml>");  
-         System.out.println(str.toString());  
-         try {
-        	// response.setCharacterEncoding("utf-8");
-			response.getWriter().write(str.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+        
+        return weixinService.unifyHandler(message);
 	}
 
-	public BaseMessageService getBaseMessageService() {
-		return baseMessageService;
+	public WeixinService getWeixinService() {
+		return weixinService;
 	}
 
-	public void setBaseMessageService(BaseMessageService baseMessageService) {
-		this.baseMessageService = baseMessageService;
-	}
-
-	public WeixinUserService getWeixinUserService() {
-		return weixinUserService;
-	}
-
-	public void setWeixinUserService(WeixinUserService weixinUserService) {
-		this.weixinUserService = weixinUserService;
-	}
-
-	public PositionService getPositionService() {
-		return positionService;
-	}
-
-	public void setPositionService(PositionService positionService) {
-		this.positionService = positionService;
+	public void setWeixinService(WeixinService weixinService) {
+		this.weixinService = weixinService;
 	}
 }

@@ -3,22 +3,14 @@
  */
 package brieflife;
 
-import java.util.Date;
-
-import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.mnuo.brieflife.entity.BlPosition;
-import com.mnuo.brieflife.entity.BlTextMessage;
-import com.mnuo.brieflife.service.BaseMessageService;
 
 /**
  * @author saxon
  */
 public class SSHTest {
 	private ApplicationContext acx = null;
-	@Test
+	/*@Test
 	public void testDataSource() throws Exception{
 		acx = new ClassPathXmlApplicationContext("config/spring.xml");
 		BaseMessageService baseMessageService = acx.getBean(BaseMessageService.class);
@@ -33,5 +25,5 @@ public class SSHTest {
     	textMessage.setBlPosition(position);
     	baseMessageService.save(textMessage);
 
-	}
+	}*/
 }

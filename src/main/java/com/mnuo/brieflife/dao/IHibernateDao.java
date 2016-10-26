@@ -6,6 +6,8 @@ package com.mnuo.brieflife.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import com.mnuo.brieflife.common.sql.QueryFiters;
+
 /**
  * @author saxon
  * 通用的操作接口
@@ -22,4 +24,6 @@ public interface IHibernateDao<T extends Serializable> {
     void delete(final T entity);
 
     void deleteById(final long entityId);
+    
+	List<T> queryCriteria(QueryFiters filters, Class<? extends Serializable> clazz);
 }

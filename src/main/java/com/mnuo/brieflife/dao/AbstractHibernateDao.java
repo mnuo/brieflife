@@ -6,11 +6,14 @@ package com.mnuo.brieflife.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mnuo.brieflife.common.Preconditions;
+import com.mnuo.brieflife.common.sql.QueryFiter;
+import com.mnuo.brieflife.common.sql.QueryFiters;
 
 /**
  * @author saxon
@@ -69,4 +72,17 @@ public class AbstractHibernateDao<T extends Serializable> implements IHibernateD
         delete(entity);
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> queryCriteria(QueryFiters filters, Class<? extends Serializable> clazz){
+		Criteria c= getCurrentSession().createCriteria(clazz);
+		for(QueryFiter fiter : filters.getParam()){
+			c.add(fiter.getSimpleException());
+		}
+		if(filters.getOrder() != null){
+			c.addOrder(filters.getOrder());
+			
+		}
+		return c.list();
+	}
 }
