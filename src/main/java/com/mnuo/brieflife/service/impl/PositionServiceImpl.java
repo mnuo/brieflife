@@ -5,6 +5,7 @@ package com.mnuo.brieflife.service.impl;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,14 @@ import com.mnuo.brieflife.service.PositionService;
 @Service
 @Transactional
 public class PositionServiceImpl implements PositionService {
+	private static Logger logger = Logger.getLogger(PositionServiceImpl.class);
 	@Autowired
 	PositionDao positionDao;
 	
 	@Cacheable(value="positionCache")// 使用了一个缓存名叫 accountCache   
 	@Override
 	public BlPosition getPosition(String userId) {
+		logger.debug("\n执行方法,不从缓存中取数据....");
 		BlPosition entity = positionDao.queryByUserId(userId);
 		if(entity == null){
 			entity = new BlPosition();

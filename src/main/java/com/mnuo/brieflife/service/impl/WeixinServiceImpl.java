@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,17 +60,33 @@ public class WeixinServiceImpl implements WeixinService {
 	}
 	
 	public BaseMessageXML unifyReturnXML(Map<String, String> map){
-		TextMessageXML textMessage = new TextMessageXML();
-    	textMessage.setContent("您好1");
-    	textMessage.setCreateTime(new Date().getTime());
-    	textMessage.setFromUserName(map.get("ToUserName"));
-    	textMessage.setMsgType(map.get("MsgType"));
-    	textMessage.setToUserName(map.get("FromUserName"));
+//		if(map.get("MsgType").equals(WeixinMessage.MESSAGE_TYPE_IMAGE)){
+//			ImageMessageXML textMessage = new ImageMessageXML();
+//	    	textMessage.setImage(new Image(map.get("MediaId")));
+//	    	textMessage.setCreateTime(new Date().getTime());
+//	    	textMessage.setFromUserName(map.get("ToUserName"));
+//	    	textMessage.setMsgType(map.get("MsgType"));
+//	    	textMessage.setToUserName(map.get("FromUserName"));
+//	    	return textMessage;
+//		}else{
+			TextMessageXML textMessage = new TextMessageXML();
+			textMessage.setContent("感谢您关注【SW】  /yx \n\n告诉我,你从哪里知道的?你为什么会关注XX的微信?\n\n您有什么问题有什么信息都可以输入/yx,但是别忘了输入0结束！");
+			textMessage.setCreateTime(new Date().getTime());
+			textMessage.setFromUserName(map.get("ToUserName"));
+			textMessage.setMsgType("text");
+			textMessage.setToUserName(map.get("FromUserName"));
+			
+			return textMessage;
+//		}
     	
-    	return textMessage;
 	}
 	
 	public void textHandle(Map<String, String> map){
+		if(map.get("Content").equals("0")){
+			BlPosition position = this.getPosition(map.get("FromUserName"));
+			updateStatus(position);
+			return;	
+		}
 		QueryFiters filters = new QueryFiters();
 		filters.getParam().add(new QueryFiter("msgId", map.get("MsgId"), QueryFiter.EQ));
 		List<BaseMessage> list = baseMessageDao.queryCriteria(filters, BlTextMessage.class);
@@ -122,8 +140,11 @@ public class WeixinServiceImpl implements WeixinService {
 	}
 	
 	public void locationHandle(Map<String, String> map){
-		BlPosition position = this.getPosition(map.get("FromUserName"));
-    	position.setCreatedTime(new Date(Long.valueOf(map.get("CreateTime"))*1000L));
+		BlPosition position =  positionDao.queryByUserId(map.get("FromUserName"));
+		if(position == null){
+			position = new BlPosition();
+	    	position.setCreatedTime(new Date(Long.valueOf(map.get("CreateTime"))*1000L));
+		}
     	position.setLatitude(map.get("Location_X"));
     	position.setLongitude(map.get("Location_Y"));
     	position.setAddress(map.get("Label"));
@@ -143,13 +164,19 @@ public class WeixinServiceImpl implements WeixinService {
 		}
 		return entity;
 	}
-
-	public void saveOrUpdate(BlPosition position) {
+	@CacheEvict(value="positionCache",key="#entity.getUserId()")
+	public void updateStatus(BlPosition entity){
+		entity.setStatus(1);
+		positionDao.update(entity);
+	}
+	@CachePut(value="positionCache",key="#position.getUserId()")
+	public BlPosition saveOrUpdate(BlPosition position) {
 		if(position.getId() != null && position.getId() > 0){
 			positionDao.create(position);
 		}else{
 			positionDao.update(position);
 		}
+		return position;
 	}
 
 	public PositionDao getPositionDao() {

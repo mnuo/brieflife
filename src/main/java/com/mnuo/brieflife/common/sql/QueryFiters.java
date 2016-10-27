@@ -19,7 +19,7 @@ public class QueryFiters {
 	private String orderType;
 	
 	public Order getOrder(){
-		if(!StringUtil.isNotEmpty(orderName)){
+		if(StringUtil.isNotEmpty(orderName)){
 			if("asc".equals(orderType)){
 				return Order.desc(orderName.trim());
 			}else{
