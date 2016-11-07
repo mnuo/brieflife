@@ -3,13 +3,11 @@
  */
 package brieflife;
 
-import org.springframework.context.ApplicationContext;
-
 /**
  * @author saxon
  */
 public class SSHTest {
-	private ApplicationContext acx = null;
+//	private ApplicationContext acx = null;
 	/*@Test
 	public void testDataSource() throws Exception{
 		acx = new ClassPathXmlApplicationContext("config/spring.xml");

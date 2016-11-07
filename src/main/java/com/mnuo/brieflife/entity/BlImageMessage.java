@@ -1,12 +1,14 @@
 package com.mnuo.brieflife.entity;
 // Generated 2016-10-23 10:26:21 by Hibernate Tools 5.2.0.Beta1
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,7 +21,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "bl_image_message", catalog = "brieflife")
-public class BlImageMessage extends BaseMessage implements java.io.Serializable {
+public class BlImageMessage extends WeixinMessage implements java.io.Serializable {
 	private static final long serialVersionUID = -9131797776795147810L;
 	private Integer id;
 	private String picUrl;

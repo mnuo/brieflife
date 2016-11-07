@@ -27,4 +27,14 @@ public class StringUtil {
 		return sb.toString().toLowerCase();
 	}
 	
+	public static String toFirstLowerCase(String in){
+		char[] arr = in.toCharArray();
+		StringBuffer sb = new StringBuffer();
+		
+		char first = arr[0];
+		
+		sb.append((first + "").toLowerCase());
+		sb.append(in.substring(1));
+		return sb.toString();
+	}
 }

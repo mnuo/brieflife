@@ -1,7 +1,7 @@
 /**
  * WeixinCheck.java created at 2016年10月22日 下午5:05:16
  */
-package com.mnuo.brieflife.common;
+package com.mnuo.brieflife.common.weixin;
 
 import java.util.Arrays;
 

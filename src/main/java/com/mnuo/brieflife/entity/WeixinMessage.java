@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * @author saxon
  */
-public abstract class BaseMessage implements Serializable {
+public abstract class WeixinMessage implements Serializable {
 	private static final long serialVersionUID = -4750357245401972497L;
 	public String fromUserName;
 	public Date createTime;

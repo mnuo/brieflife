@@ -3,11 +3,11 @@
  */
 package com.mnuo.brieflife.dao;
 
-import com.mnuo.brieflife.entity.BaseMessage;
+import com.mnuo.brieflife.entity.WeixinMessage;
 
 /**
  * @author saxon
  */
-public interface BaseMessageDao extends IHibernateDao<BaseMessage>{
+public interface BaseMessageDao extends IHibernateDao<WeixinMessage>{
 
 }

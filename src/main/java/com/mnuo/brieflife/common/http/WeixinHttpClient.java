@@ -3,7 +3,6 @@
  */
 package com.mnuo.brieflife.common.http;
 
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,8 +10,8 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.mnuo.brieflife.common.WeixinMessage;
 import com.mnuo.brieflife.common.utils.StringUtil;
+import com.mnuo.brieflife.common.weixin.WeixinMessageConstant;
 
 /**
  * @author saxon
@@ -26,7 +25,7 @@ public class WeixinHttpClient {
 	 */
 	public static String getAccessTocken(){
 		try {
-			String result = HttpClientInvoke.httpStreamGetString(TOKEN_URL+"&appid="+WeixinMessage.APP_ID+"&secret="+ WeixinMessage.APP_SECRET);
+			String result = HttpClientInvoke.httpStreamGetString(TOKEN_URL+"&appid="+WeixinMessageConstant.APP_ID+"&secret="+ WeixinMessageConstant.APP_SECRET);
 			
 			JSONObject json = JSONObject.parseObject(result);
 			

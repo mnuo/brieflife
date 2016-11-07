@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mnuo.brieflife.common.WeixinCheck;
-import com.mnuo.brieflife.common.WeixinMessage;
 import com.mnuo.brieflife.common.utils.StringUtil;
+import com.mnuo.brieflife.common.utils.XmlUtil;
+import com.mnuo.brieflife.common.weixin.WeixinCheck;
+import com.mnuo.brieflife.common.weixin.WeixinMessageConstant;
 import com.mnuo.brieflife.service.WeixinService;
 /**
  * @author saxon
@@ -38,7 +39,7 @@ public class WeixinController {
 	@RequestMapping(value="/weixin", method={RequestMethod.GET})
 	@ResponseBody
 	public String weixin(String signature, String echostr, String timestamp, String nonce){
-        if(StringUtil.isNotEmpty(echostr) && WeixinCheck.checkFromWeixinOne(new String[]{WeixinMessage.TOKEN, timestamp, nonce}, signature)){
+        if(StringUtil.isNotEmpty(echostr) && WeixinCheck.checkFromWeixinOne(new String[]{WeixinMessageConstant.TOKEN, timestamp, nonce}, signature)){
         	return echostr;
         }
         return "";
@@ -52,8 +53,7 @@ public class WeixinController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-         
-        Map<String,String> message=WeixinMessage.parseXml(request);
+        Map<String,String> message=XmlUtil.parseXml(request);
         
         return weixinService.unifyHandler(message);
 	}

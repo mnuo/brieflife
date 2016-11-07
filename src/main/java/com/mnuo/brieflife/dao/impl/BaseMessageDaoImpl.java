@@ -8,13 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mnuo.brieflife.dao.AbstractHibernateDao;
 import com.mnuo.brieflife.dao.BaseMessageDao;
-import com.mnuo.brieflife.entity.BaseMessage;
+import com.mnuo.brieflife.entity.WeixinMessage;
 
 /**
  * @author saxon
  */
 @Repository
 @Transactional
-public class BaseMessageDaoImpl extends AbstractHibernateDao<BaseMessage> implements BaseMessageDao {
+public class BaseMessageDaoImpl extends AbstractHibernateDao<WeixinMessage> implements BaseMessageDao {
 
 }
